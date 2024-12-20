@@ -1,37 +1,33 @@
 name: Basic workflow
 
-# Triggers - Vad ska göras på push och pull request? 
-
-#NÄR ska det triggas?
-on: 
-  push: 
-    branches: [main] 
-    paths: #(Triggas specifikt vid förändringar i dessa filer)
-      - "*.js" 
-      - "package*.json" 
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**.js"
+      - "package*.json"
   pull_request:
     branches: [main]
-      paths:
-      - "*.js" 
-      - "package*.json" 
+    paths:
+      - "**.js"
+      - "package*.json"
 
-#Vilka jobb ska vi köra? 
 jobs:
   test:
-    runs-on: ubuntu-latest #Vi väljer den senaste Ubuntu-miljön
+    runs-on: ubuntu-latest
 
-    steps: #Vi beskriver alla steg som workflowet ska genomföra, varje name visar ett steg.
-      - name: Checkout repository 
-        uses: actions/checkout@v4 #Vi använder version 4 av checkout-actions för att checka ut repot
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Setup node.js #Vi sätter upp vårt node enviroment
-        uses: actions/setup-ode@v4
-        with: 
-          node-version: "20" #Version av nodmiljö
-          cache: "npm" #Vi aktiverar automatisk cacheing för npm
+      - name: Setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
-        run: npm ci 
+        run: npm ci
 
       - name: Run tests
         run: npm test
